@@ -1,0 +1,7 @@
+natsort # needed to load videos in the correct order
+pygobject # needed for pywebview
+pywebview[qt] # needed for cross platform native folder picker
+pyyaml # needed to load the timestamps file
+numpy # for video splitter
+pygame # for beat marker in python
+Pillow # for beat marker in python
