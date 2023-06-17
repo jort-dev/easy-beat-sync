@@ -4,8 +4,8 @@ Generate a video of your photos and videos, synced to the beat of your song!
 ## Usage
 Create a new folder. This folder needs to contain the following :
 * another folder, with your videos and photos to use
-* a music file, for example an .mp3
-* a timestamps file, which you can create with the included beat marker tool (live demo: [Beat Marker](jort.dev/marker))
+* a music file, for example .mp3
+* a timestamps file, which you can create with the included beat marker tool (live demo: [live demo](https://jort.dev/marker))
 
 Now run the program `main.py`. It will prompt you for a folder, select the folder you created above.
 The program will:

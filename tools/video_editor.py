@@ -4,8 +4,10 @@ Edit your input videos/images, add a text for example.
 """
 import sys
 from pathlib import Path
-from natsort import natsorted
 
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'common')))  # HACK >:)
 from common import *
 
 
@@ -29,14 +31,14 @@ def scale(in_path, out_path):
 
 
 caller_folder = Path(sys.argv[0]).parent
-font_folder = os.path.join(caller_folder, "src")
+font_folder = os.path.join(caller_folder, "../src")
 font_paths = get_file_paths_with_extensions(font_folder, FONT_EXTENSIONS)
 font_path = None
 if font_paths:
     font_path = font_paths[0]
 
 # input_items_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
-input_items_folder = "/home/jort/Videos/video_compilations/brindisi/source"
+input_items_folder = "/home/jort/Pictures/2023_03_brindisi_sorted/good_converted"
 out_folder = os.path.join(input_items_folder, "edited")
 realise_dir(out_folder)
 item_paths = get_file_paths_with_extensions(input_items_folder, *ITEM_EXTENSIONS)
