@@ -35,8 +35,8 @@ font_path = None
 if font_paths:
     font_path = font_paths[0]
 
-# items_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
-input_items_folder = "/home/jort/Videos/video_compilations/test_easy_beat_sync/veluwe"
+# input_items_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
+input_items_folder = "/home/jort/Videos/video_compilations/brindisi/source"
 out_folder = os.path.join(input_items_folder, "edited")
 realise_dir(out_folder)
 item_paths = get_file_paths_with_extensions(input_items_folder, *ITEM_EXTENSIONS)

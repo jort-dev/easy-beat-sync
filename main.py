@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate.
-todo:
-check code for existing dirs
-could cut videos obvious too long
-count frames in output and see if it matches timestamps
+Main program which generates your beat sync video.
+
 """
-import sys
-from pathlib import Path
 
 from Assets import Assets
 from common import *
@@ -29,13 +24,33 @@ class Compiler:
         for clip in self.assets.clips:
             clip.calculate_required_frames(self.fps)
 
-    def match_item_to_clip(self, item, clip):
-        """
-        Assumed: fps is always higher than item ms
-        """
-        item_frame_index = 0
-        last_copied_frame_index = -1
+    def match_items_to_clips(self):
+        printt(f"Matching clips...")
+        index = 0
+        stop_index = min(len(self.assets.items), len(self.assets.clips))
+        written_ms = 0
+        current_item_index = 0
+        while True:
+            if index >= stop_index:
+                printt("All clips matched!")
+                break
+            item = self.assets.items[index]
+            clip = self.assets.clips[index]
+            if written_ms > clip.end_ms:
+                index += 1
+                current_item_index = 0
+                printt(f"Matching clip {index} / {stop_index}", end="\r")
+                continue
+            self.write_frame_to_clip(current_item_index, item, clip)
+            written_ms += self.ms_between_frames
+            current_item_index += 1
 
+    def write_frame_to_clip(self, frame_number, item, clip):
+        """
+        Frame number: how many frames are already written to the clip + 1
+        Assumed: fps is always higher than item ms
+        Calculates the FPS the clip needs to have to fit the frames of the item.
+        """
         if item.frame_amount != 1:
             # 30 / 60 = 0.5, so item gets read slower such that the written speed matches
             index_increment = item.fps / self.fps
@@ -45,39 +60,11 @@ class Compiler:
             if clip.frame_amount * index_increment >= item.frame_amount - 1:
                 # item does not have enough frames, needs to be slowed down
                 index_increment = (item.frame_amount - 1) / clip.frame_amount
+            frame_index_to_copy = round(frame_number * index_increment)
         else:
-            index_increment = 0  # item is an image and should not go to the next frame
+            frame_index_to_copy = 0
 
-        while True:
-            if len(clip.frame_paths) >= clip.frame_amount:
-                # clip is written
-                break
-
-            frame_index_to_copy = round(item_frame_index)
-
-            if item.frame_amount != 1:  # in case of video, calculate next frame index
-                if last_copied_frame_index != frame_index_to_copy:
-                    # if out of bounds error occur, index increment calculation was wrong
-                    last_copied_frame_index = frame_index_to_copy
-
-                item_frame_index += index_increment
-
-            clip.frame_paths.append(item.frames_paths[frame_index_to_copy])
-
-    def match_items_to_clips(self):
-        printt(f"Matching clips...")
-        index = 0
-        # could do: for in range
-        iteration_amount = min(len(self.assets.items), len(self.assets.clips))
-        while True:
-            if index >= iteration_amount:
-                printt(f"All clips matched")
-                break
-            printt(f"Matching clip {index} / {iteration_amount}", end="\r")
-            item = self.assets.items[index]
-            clip = self.assets.clips[index]
-            self.match_item_to_clip(item, clip)
-            index += 1
+        clip.frame_paths.append(item.frames_paths[frame_index_to_copy])
 
     def compile_video(self):
         frame_paths = []
