@@ -1,4 +1,5 @@
 # Easy Beat Sync - EBS
+[Demo](https://youtu.be/6KdzGk0GU5E)  
 Generate a video of your photos and videos, synced to the beat of your song!
 
 ## Usage
