@@ -1,8 +1,15 @@
+"""
+Shifts all the timestamps in a timestamps.yaml file.
+Use this if the beat sync seems off a little bit.
+"""
+import os
+import sys
 from pathlib import Path
 
 import yaml
 
-from common import *
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'common')))  # HACK >:)
+from common.common import *
 
 timestamps_path = ask_file()
 timestamps_filename = Path(timestamps_path).name

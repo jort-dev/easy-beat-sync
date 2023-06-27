@@ -9,6 +9,10 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'common')))  # HACK >:)
 from common import *
+try:
+    from common.common import *
+except ImportError:
+    pass
 
 
 def get_ffmpeg_text_format(text, xy_string, font_path, font_size=24):
@@ -17,9 +21,9 @@ def get_ffmpeg_text_format(text, xy_string, font_path, font_size=24):
 
 
 def add_text(in_path, out_path):
-    text1 = get_ffmpeg_text_format(p.name, "x=w-tw-10:y=h-th-10", font_path)
+    # text1 = get_ffmpeg_text_format(p.name, "x=w-tw-10:y=h-th-10", font_path)
     text2 = get_ffmpeg_text_format(count, "x=10:y=10", font_path)
-    cmd = f"-i {in_path} -vf \"{text1},{text2}\" -codec:a copy {out_path}"
+    cmd = f"-i {in_path} -vf \"{text2}\" -codec:a copy {out_path}"
     ffmpeg_cmd(cmd)
 
 
@@ -37,8 +41,8 @@ font_path = None
 if font_paths:
     font_path = font_paths[0]
 
-# input_items_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
-input_items_folder = "/home/jort/Pictures/2023_03_brindisi_sorted/good_converted"
+input_items_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
+# input_items_folder = "/home/jort/Pictures/2023_03_brindisi_sorted/good_converted"
 out_folder = os.path.join(input_items_folder, "edited")
 realise_dir(out_folder)
 item_paths = get_file_paths_with_extensions(input_items_folder, *ITEM_EXTENSIONS)
@@ -62,7 +66,7 @@ for item_path in item_paths:
 
     # last layer, should have same filename as input file
     in_path = out_path
-    out_path = os.path.join(out_folder, f"{in_filename}{in_extension}")
+    out_path = os.path.join(out_folder, f"{in_filename}")
     add_text(in_path, out_path)
 
     count += 1

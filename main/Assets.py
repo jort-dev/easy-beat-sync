@@ -8,9 +8,9 @@ from pathlib import Path
 
 import yaml
 
-from common import *
-from Clip import Clip
-from Item import Item
+from common.common import *
+from main.Clip import Clip
+from main.Item import Item
 
 
 class Assets:

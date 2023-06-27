@@ -2,7 +2,7 @@
 Item: either a video or image which gets converted to a clip
 """
 from pathlib import Path
-from common import *
+from common.common import *
 
 
 class Item:

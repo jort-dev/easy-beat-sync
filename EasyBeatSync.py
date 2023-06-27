@@ -3,9 +3,14 @@
 Main program which generates your beat sync video.
 
 """
+import os
+import sys
 
-from Assets import Assets
-from common import *
+from main.Assets import Assets
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'common')))  # HACK >:)
+# print(os.path.abspath(os.path.join(os.path.dirname(__file__), 'common')))  # HACK >:)
+from common.common import *
 
 
 class Compiler:
@@ -91,8 +96,8 @@ class Compiler:
         printt(f"Video compiled! Saved as {self.assets.result_video_name}!")
 
 
-printt("The program will prompt you for a folder. ")
 printt("This folder needs to contain a music file, a timestamp file, and another folder with images and videos.")
-root_folder = "/home/jort/Videos/video_compilations/brindisi"
-# root_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
+printt("Select this folder in the prompt visible now.")
+# root_folder = "/home/jort/Videos/video_compilations/brindisi"
+root_folder = sys.argv[1] if len(sys.argv) >= 2 else ask_folder()
 Compiler(root_folder)
