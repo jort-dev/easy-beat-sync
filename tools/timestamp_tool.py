@@ -9,11 +9,19 @@ from pathlib import Path
 import yaml
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'common')))  # HACK >:)
-from common.common import *
+from common import *
+try:
+    from common.common import *
+except ImportError:
+    pass
 
 timestamps_path = ask_file()
 timestamps_filename = Path(timestamps_path).name
-timestamp_dict = yaml.safe_load(open(timestamps_path))
+try:
+    timestamp_dict = yaml.safe_load(open(timestamps_path))
+except:
+    quit("Could not find read YAML from supplied file.")
+
 timestamps = timestamp_dict["type1"]
 
 ms_between_frames = 15
